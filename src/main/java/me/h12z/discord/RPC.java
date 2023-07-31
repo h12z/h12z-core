@@ -26,7 +26,7 @@ public class RPC {
     }
 
     public RPC create() {
-        String applicationID = "1085963311918620815";
+        String applicationID = "";
         String steamID = "";
         DiscordEventHandlers handlers = new DiscordEventHandlers();
         handlers.ready = (user) -> System.out.println("Discord RPC - Ready!");
