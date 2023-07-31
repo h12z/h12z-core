@@ -1,0 +1,45 @@
+plugins {
+
+    id 'java'
+    id 'maven-publish'
+
+}
+
+group 'me.h12z'
+version '1'
+
+repositories {
+
+    mavenCentral()
+
+}
+
+dependencies {
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+
+}
+
+test {
+
+    useJUnitPlatform()
+
+}
+
+publishing {
+
+    publications {
+
+        mavenJava(MavenPublication) {
+
+            groupId = 'me.h12z'
+            artifactId = 'h12z-core'
+            version = '1'
+
+            from components.java
+        }
+
+    }
+
+}
