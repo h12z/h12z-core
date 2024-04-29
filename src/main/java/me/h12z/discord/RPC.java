@@ -22,7 +22,7 @@ public class RPC {
 
     }
 
-    public void update(String state, String details) {
+    public void update(String state, String details, String s, String ss) {
 
         DiscordRichPresence richPresence = new DiscordRichPresence();
         richPresence.state = state;
