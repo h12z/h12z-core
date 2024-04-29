@@ -7,125 +7,30 @@ import me.h12z.Variables;
 
 public class RPC {
 
-    private final DiscordRPC lib = DiscordRPC.INSTANCE;
-    private final String largeImageKey;
-    private final String largeImageText;
-    private RPCCache rpcCache;
-    private RPCParty rpcParty;
-    private boolean party = false;
-    private static boolean created = false;
     private long start;
-    private Thread worker;
+    public DiscordRPC rpc = DiscordRPC.INSTANCE;
+    private DiscordEventHandlers handlers;
 
-    public RPC(String largeImageKey, String largeImageText) {
+    public void create() {
 
-        this.largeImageKey = largeImageKey;
-        this.largeImageText = largeImageText;
-        this.start = -1;
+        handlers = new DiscordEventHandlers();
 
-    }
+        handlers.ready = (user) -> System.out.println("Ready!");
+        start = System.currentTimeMillis();
 
-    public RPC create() {
-        String applicationID = "";
-        String steamID = "";
-        DiscordEventHandlers handlers = new DiscordEventHandlers();
-        handlers.ready = (user) -> System.out.println("Discord RPC - Ready!");
-        lib.Discord_Initialize(applicationID, handlers, true, steamID);
-        worker = new Thread(() -> {
-
-            while(Thread.currentThread().isInterrupted()) {
-
-                lib.Discord_RunCallbacks();
-                try {
-                    Thread.sleep(2000);
-                } catch (Exception e) {
-
-                    e.printStackTrace();
-
-                }
-
-            }
-
-        }, "RPC-Callback-Handler");
-        worker.start();
-        return this;
-    }
-
-    public void destroy() {
-
-        worker.interrupt();
-        worker = null;
-        party = false;
-        rpcCache = null;
-        rpcParty = null;
-        start = -1;
-        lib.Discord_Shutdown();
+        rpc.Discord_Initialize("1211915607323447297", handlers, true, "");
 
     }
 
-    public RPC setupParty(int max) {
+    public void update(String state, String details) {
 
-        return setupParty(new RPCParty(max));
+        DiscordRichPresence richPresence = new DiscordRichPresence();
+        richPresence.state = state;
+        richPresence.details = details;
+        richPresence.largeImageKey = "large";
+        richPresence.startTimestamp = start;
 
-    }
-
-    public RPC setupParty(RPCParty rpcParty) {
-
-        this.rpcParty = rpcParty;
-        Variables.rpcParty = rpcParty;
-        party = true;
-
-        return this;
-
-    }
-
-    public void update(String details, String state, String smallImageKey, String smallImageText) {
-
-        DiscordRichPresence presence = new DiscordRichPresence();
-        if(start == -1)
-
-            start = System.currentTimeMillis() / 1000;
-
-        presence.startTimestamp = start;
-        presence.details = details;
-        presence.state = state;
-        presence.largeImageKey = largeImageKey;
-        presence.largeImageText = largeImageText;
-        presence.smallImageKey = smallImageKey;
-        presence.smallImageText = smallImageText;
-        if(party) {
-
-            presence.partyId = rpcParty.getId();
-            presence.partySize = rpcParty.getSize();
-            presence.partyMax = rpcParty.getMax();
-            presence.joinSecret = rpcParty.getJoinsecret();
-
-        }
-        lib.Discord_UpdatePresence(presence);
-        rpcCache = new RPCCache(details, state, smallImageKey, smallImageText);
-
-    }
-
-    public void destroyParty() {
-
-        this.rpcParty = null;
-        Variables.rpcParty = null;
-
-        party = false;
-
-    }
-
-    public static RPC instance() {
-
-        if(!created) {
-
-            created = true;
-
-            return Variables.rpc.create();
-
-        }
-
-        return Variables.rpc;
+        rpc.Discord_UpdatePresence(richPresence);
 
     }
 
