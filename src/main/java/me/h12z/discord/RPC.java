@@ -27,10 +27,10 @@ public class RPC {
 
     public static void update(String state, String details, String s, String ss) {
 
-        RPC rpc = new RPC();
+        RPC rpc1 = new RPC();
         
-        if(!rpc.initialized)
-            rpc.init()
+        if(!rpc1.initialized)
+            rpc1.init();
 
         DiscordRichPresence richPresence = new DiscordRichPresence();
         richPresence.state = state;
