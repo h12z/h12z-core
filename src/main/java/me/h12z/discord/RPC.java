@@ -7,7 +7,7 @@ import me.h12z.Variables;
 
 public class RPC {
 
-    private long start;
+    public long start;
     public DiscordRPC rpc = DiscordRPC.INSTANCE;
     private DiscordEventHandlers handlers;
     public boolean initialized = false;
@@ -36,9 +36,9 @@ public class RPC {
         richPresence.state = state;
         richPresence.details = details;
         richPresence.largeImageKey = "large";
-        richPresence.startTimestamp = start;
+        richPresence.startTimestamp = rpc1.start;
 
-        rpc.Discord_UpdatePresence(richPresence);
+        rpc1.rpc.Discord_UpdatePresence(richPresence);
 
     }
 
