@@ -12,24 +12,23 @@ public class RPC {
     private DiscordEventHandlers handlers;
     private boolean initialized = false;
 
-    public RPC() {
+    public void init() {
 
-        if(!initialized) {
+        handlers = new DiscordEventHandlers();
 
-            handlers = new DiscordEventHandlers();
+        handlers.ready = (user) -> System.out.println("Ready!");
+        start = System.currentTimeMillis();
 
-            handlers.ready = (user) -> System.out.println("Ready!");
-            start = System.currentTimeMillis();
+        rpc.Discord_Initialize("application_id", handlers, true, "");
 
-            rpc.Discord_Initialize("1211915607323447297", handlers, true, "");
-
-            initialized = true;
-
-        }
+        initialized = true;
 
     }
 
-    public void update(String state, String details, String s, String ss) {
+    public static void update(String state, String details, String s, String ss) {
+
+        if(!initialized)
+            init()
 
         DiscordRichPresence richPresence = new DiscordRichPresence();
         richPresence.state = state;
