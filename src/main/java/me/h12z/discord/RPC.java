@@ -10,7 +10,7 @@ public class RPC {
     private long start;
     public DiscordRPC rpc = DiscordRPC.INSTANCE;
     private DiscordEventHandlers handlers;
-    private boolean initialized = false;
+    public boolean initialized = false;
 
     public void init() {
 
@@ -27,8 +27,10 @@ public class RPC {
 
     public static void update(String state, String details, String s, String ss) {
 
-        if(!initialized)
-            init()
+        RPC rpc = new RPC();
+        
+        if(!rpc.initialized)
+            rpc.init()
 
         DiscordRichPresence richPresence = new DiscordRichPresence();
         richPresence.state = state;
