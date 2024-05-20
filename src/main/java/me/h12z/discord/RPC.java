@@ -10,15 +10,22 @@ public class RPC {
     private long start;
     public DiscordRPC rpc = DiscordRPC.INSTANCE;
     private DiscordEventHandlers handlers;
+    private boolean initialized = false;
 
-    public void create() {
+    public RPC() {
 
-        handlers = new DiscordEventHandlers();
+        if(!initialized) {
 
-        handlers.ready = (user) -> System.out.println("Ready!");
-        start = System.currentTimeMillis();
+            handlers = new DiscordEventHandlers();
 
-        rpc.Discord_Initialize("1211915607323447297", handlers, true, "");
+            handlers.ready = (user) -> System.out.println("Ready!");
+            start = System.currentTimeMillis();
+
+            rpc.Discord_Initialize("1211915607323447297", handlers, true, "");
+
+            initialized = true;
+
+        }
 
     }
 
