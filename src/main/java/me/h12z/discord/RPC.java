@@ -3,7 +3,6 @@ package me.h12z.discord;
 import club.minnced.discord.rpc.DiscordEventHandlers;
 import club.minnced.discord.rpc.DiscordRPC;
 import club.minnced.discord.rpc.DiscordRichPresence;
-import me.h12z.Variables;
 
 public class RPC {
 
