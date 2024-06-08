@@ -25,6 +25,12 @@ public class RPC {
 
     }
 
+    public static RPC instance() {
+
+        return new RPC();
+        
+    }
+
     public static void update(String state, String details, String s, String ss) {
 
         RPC rpc1 = new RPC();
